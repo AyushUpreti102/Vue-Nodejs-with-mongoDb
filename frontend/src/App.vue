@@ -1,17 +1,13 @@
 <template>
   <div>
-    <header>
-    
-    </header>
-  
+    <header></header>
+
     <RouterView />
   </div>
 </template>
 
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
+import { RouterView } from 'vue-router'
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
