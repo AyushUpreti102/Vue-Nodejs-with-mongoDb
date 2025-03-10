@@ -3,14 +3,31 @@ const router = express.Router();
 
 const Event = require("../models/events-model");
 
+const { getSearchCondition } = require("../helpers");
+
 router.use(express.json());
 
 router.get("/", async (req, res) => {
   try {
     const skip = req.query.skip ? parseInt(req.query.skip) : 0;
-    const limit = req.query.limit ? parseInt(req.query.limit) : 0;
-    const events = await Event.find().skip(skip).limit(limit);
-    res.json(events);
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const searchCondition = getSearchCondition(req);
+
+    const totalEvents = await Event.countDocuments(searchCondition);
+    const paginatedEvents = await Event.find(searchCondition)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const currentPage = Math.floor(skip / limit) + 1;
+
+    const data = {
+      events: paginatedEvents,
+      total: totalEvents,
+      page: currentPage,
+    };
+
+    res.json(data);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
