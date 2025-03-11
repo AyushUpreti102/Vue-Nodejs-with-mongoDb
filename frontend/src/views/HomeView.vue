@@ -1,5 +1,6 @@
 <template>
   <div>
+    <nav-bar />
     <div class="header-container">
       <div class="search-bar-container">
         <input v-model="searchQuery" type="text" placeholder="Search..." class="search-input" />
@@ -32,6 +33,7 @@
 </template>
 
 <script setup lang="ts">
+import NavBar from '@/components/NavBar.vue'
 import AddEditModal from '@/components/AddEventModal.vue'
 import EventsFilter from '@/components/EventsFilter.vue'
 import EventsList from '@/components/EventsList.vue'
