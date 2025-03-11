@@ -1,5 +1,5 @@
 <template>
-  <div class="event-card">
+  <RouterLink :to="{ name: 'details-page', params: { id: event.id } }" class="event-card">
     <img class="event-image" :src="event.image" :alt="`${event.name}-image`" />
     <div class="event-header">
       <h3 class="event-title">{{ event.name }}</h3>
@@ -10,19 +10,15 @@
       {{ event.description }}
     </p>
     <div class="event-footer">
-      <button
-        class="btn-view-details"
-        @click="$router.push({ name: 'details-page', params: { id: event.id } })"
-      >
-        View Details
-      </button>
+      <button class="btn-view-details">View Details</button>
     </div>
-  </div>
+  </RouterLink>
 </template>
 
 <script setup lang="ts">
 import type { Event } from '@/types/events-types'
 import { computed } from 'vue'
+import { RouterLink } from 'vue-router'
 
 const props = defineProps<{
   event: Event
@@ -40,6 +36,7 @@ const formattedDate = computed(() => {
 
 <style scoped>
 .event-card {
+  text-decoration: none;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

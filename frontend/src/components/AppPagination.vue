@@ -40,6 +40,7 @@ const changePage = (page: number | string) => {
   if (typeof page === 'number' && page > 0 && page <= props.totalPages) {
     emit('update:modelValue', page)
   }
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 const paginate = (current_page: number, last_page: number) => {

@@ -1,4 +1,7 @@
 <template>
+  <teleport to="body">
+    <div v-if="isFilterSidebarOpen" class="filter-overlay" @click="emit('on-close')" />
+  </teleport>
   <transition name="filter-sidebar">
     <div v-if="isFilterSidebarOpen" class="filter-sidebar">
       <div class="filter-sidebar-content">
@@ -51,6 +54,11 @@ const { filters } = storeToRefs(eventsStore)
 </script>
 
 <style scoped>
+.filter-overlay {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.2);
+  inset: 0;
+}
 /* Filter Sidebar */
 .filter-sidebar {
   position: fixed;

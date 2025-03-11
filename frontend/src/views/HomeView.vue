@@ -10,6 +10,10 @@
       </button>
     </div>
 
+    <div class="sort">
+      <button class="sort-button" @click="sortData">🔃</button>
+    </div>
+
     <events-list />
 
     <!-- Filter Sidebar -->
@@ -38,14 +42,20 @@ import { storeToRefs } from 'pinia'
 import type { CreateEventFormData } from '@/types/events-types'
 
 const eventsStore = useEventsStore()
-const { searchQuery } = storeToRefs(eventsStore)
+const { searchQuery, sort } = storeToRefs(eventsStore)
 
 const isModalOpen = ref(false)
 const isFilterSidebarOpen = ref(false)
-
-eventsStore.fetchEvents()
+const isAsc = ref(true)
 
 const debounceSearch = useDebounce(eventsStore.fetchEvents, 1000)
+
+const sortData = () => {
+  isAsc.value = !isAsc.value
+  if (isAsc.value) sort.value = 'asc'
+  else sort.value = 'dsc'
+  eventsStore.fetchEvents()
+}
 
 const addEvent = async (data: CreateEventFormData) => {
   await eventsStore.createNewEvent(data)
@@ -53,6 +63,8 @@ const addEvent = async (data: CreateEventFormData) => {
 }
 
 watch(searchQuery, debounceSearch)
+
+eventsStore.fetchEvents()
 </script>
 
 <style scoped>
@@ -106,5 +118,18 @@ watch(searchQuery, debounceSearch)
 
 .filter-button:hover {
   background-color: #218838;
+}
+
+.sort {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 20px;
+}
+
+.sort-button {
+  background-color: white;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
 }
 </style>

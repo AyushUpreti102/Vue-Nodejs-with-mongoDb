@@ -1,7 +1,7 @@
 <template>
   <div class="event-detail-container">
     <div class="event-card">
-      <img :src="event.image" alt="Event Image" class="event-image" />
+      <img :src="event.image" :alt="`${event.name} Image`" class="event-image" />
       <div class="event-info">
         <div class="event-header">
           <h1 class="event-title">{{ event.name }}</h1>

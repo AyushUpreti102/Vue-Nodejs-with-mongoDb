@@ -8,12 +8,14 @@ type EventsParams = {
   date?: string
   location?: string
   category?: string
+  sort?: 'asc' | 'dsc'
 }
 
 export const getEvents = async (
   skip?: number,
   limit?: number,
   search?: string,
+  sort?: 'asc' | 'dsc',
   filters?: FilterForm
 ) => {
   const params: EventsParams = {
@@ -35,6 +37,8 @@ export const getEvents = async (
   if (category) {
     params.category = category
   }
+
+  params.sort = sort
 
   const { data } = await useAxios<EventData>({
     url: '/events',

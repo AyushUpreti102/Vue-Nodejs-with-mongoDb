@@ -11,11 +11,12 @@ router.get("/", async (req, res) => {
   try {
     const skip = req.query.skip ? parseInt(req.query.skip) : 0;
     const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const sort = req.query.sort === "asc" ? -1 : 1;
     const searchCondition = getSearchCondition(req);
 
     const totalEvents = await Event.countDocuments(searchCondition);
     const paginatedEvents = await Event.find(searchCondition)
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: sort })
       .skip(skip)
       .limit(limit);
 

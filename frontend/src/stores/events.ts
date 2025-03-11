@@ -7,6 +7,7 @@ export const useEventsStore = defineStore('events', () => {
   const events = ref<Event[]>([])
   const currentPage = ref(1)
   const searchQuery = ref('')
+  const sort = ref<'asc' | 'dsc'>('asc')
   const filters = ref<FilterForm>({
     date: '',
     location: '',
@@ -21,6 +22,7 @@ export const useEventsStore = defineStore('events', () => {
       (currentPage.value - 1) * totalResultPerPage.value,
       totalResultPerPage.value,
       searchQuery.value,
+      sort.value,
       filters.value
     )
     events.value = data.events
@@ -51,6 +53,7 @@ export const useEventsStore = defineStore('events', () => {
     events,
     currentPage,
     searchQuery,
+    sort,
     totalPages,
     filters,
     fetchEvents,

@@ -31,7 +31,7 @@ const { events, currentPage, totalPages } = storeToRefs(eventsStore)
 
 .event-cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Responsive grid with min width */
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Responsive grid with min width */
   gap: 20px;
   margin-bottom: 20px;
 }
