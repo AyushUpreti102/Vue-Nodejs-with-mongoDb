@@ -37,7 +37,7 @@ export const getDecodedUserInfo = () => {
   if (token) {
     try {
       const decoded: any = jwtDecode(token)
-      return decoded || 'User' // Adjust key as per your backend token payload
+      return decoded || {}
     } catch (error) {
       console.error('Invalid token', error)
       return null
