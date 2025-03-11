@@ -4,8 +4,9 @@ const router = express.Router();
 const Event = require("../models/events-model");
 
 const { getSearchCondition } = require("../helpers");
+const authMiddleware = require("../authMiddleware");
 
-router.use(express.json());
+router.use(authMiddleware);
 
 router.get("/", async (req, res) => {
   try {

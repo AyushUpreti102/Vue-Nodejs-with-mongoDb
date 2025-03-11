@@ -1,3 +1,6 @@
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
+
 const getSearchCondition = (req) => {
   const searchCondition = {};
 
@@ -32,6 +35,18 @@ const getSearchCondition = (req) => {
   return searchCondition;
 };
 
+const generateAccessToken = (user) => {
+  return jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: "15m" }); // Short expiry
+};
+
+const generateRefreshToken = (user) => {
+  return jwt.sign({ user }, process.env.JWT_REFRESH_SECRET, {
+    expiresIn: "7d",
+  }); // Long expiry
+};
+
 module.exports = {
   getSearchCondition,
+  generateAccessToken,
+  generateRefreshToken,
 };
