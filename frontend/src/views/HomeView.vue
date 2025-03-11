@@ -44,13 +44,16 @@ import { storeToRefs } from 'pinia'
 import type { CreateEventFormData } from '@/types/events-types'
 
 const eventsStore = useEventsStore()
-const { searchQuery, sort } = storeToRefs(eventsStore)
+const { searchQuery, sort, currentPage } = storeToRefs(eventsStore)
 
 const isModalOpen = ref(false)
 const isFilterSidebarOpen = ref(false)
 const isAsc = ref(true)
 
-const debounceSearch = useDebounce(eventsStore.fetchEvents, 1000)
+const debounceSearch = useDebounce(() => {
+  currentPage.value = 1
+  eventsStore.fetchEvents()
+}, 1000)
 
 const sortData = () => {
   isAsc.value = !isAsc.value
