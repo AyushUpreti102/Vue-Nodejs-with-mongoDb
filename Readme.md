@@ -1,4 +1,4 @@
-# Project Name
+# Vue node mongo app
 
 ## Setup and Run
 

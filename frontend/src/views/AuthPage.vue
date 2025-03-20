@@ -35,6 +35,7 @@ const handleAuth = async (data: { email: string; password: string; name?: string
       router.push({ name: 'home' })
     } else {
       await signUp({ ...data, name: data.name || '' })
+      isLogin.value = true
     }
   } catch (error) {
     errorMessage.value = (error as any).response.data.msg
