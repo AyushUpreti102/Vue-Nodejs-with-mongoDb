@@ -1,87 +1,19 @@
 const express = require("express");
-const router = express.Router();
-
-const Event = require("../models/events-model");
-
-const { getSearchCondition } = require("../helpers");
+const EventController = require("../controllers/event-controller");
 const authMiddleware = require("../authMiddleware");
+const { mapControllerFunction } = require("../helpers");
+
+const router = express.Router();
 
 router.use(authMiddleware);
 
-router.get("/", async (req, res) => {
-  try {
-    const skip = req.query.skip ? parseInt(req.query.skip) : 0;
-    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
-    const sort = req.query.sort === "asc" ? -1 : 1;
-    const searchCondition = getSearchCondition(req);
-
-    const totalEvents = await Event.countDocuments(searchCondition);
-    const paginatedEvents = await Event.find(searchCondition)
-      .sort({ createdAt: sort })
-      .skip(skip)
-      .limit(limit);
-
-    const currentPage = Math.floor(skip / limit) + 1;
-
-    const data = {
-      events: paginatedEvents,
-      total: totalEvents,
-      page: currentPage,
-    };
-
-    res.json(data);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-router.get("/:id", async (req, res) => {
-  try {
-    const event = await Event.findById(req.params.id);
-    res.json(event);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-});
-
-router.post("/add", async (req, res) => {
-  const event = new Event({
-    name: req.body.name,
-    description: req.body.description,
-    date: req.body.date,
-    location: req.body.location,
-    image: req.body.image,
-    max_allowed: req.body.max_allowed,
-    timing: req.body.timing,
-    category: req.body.category,
-  });
-
-  try {
-    const newEvent = await event.save();
-    res.status(201).json(newEvent);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
-
-router.put("/edit/:id", async (req, res) => {
-  try {
-    const event = await Event.findById(req.params.id);
-
-    event.name = req.body.name;
-    event.description = req.body.description;
-    event.date = req.body.date;
-    event.location = req.body.location;
-    event.image = req.body.image;
-    event.max_allowed = req.body.max_allowed;
-    event.timing = req.body.timing;
-    event.category = req.body.category;
-
-    const updatedEvent = await event.save();
-    res.status(200).json(updatedEvent);
-  } catch (error) {
-    res.status(400).json({ message: error.message });
-  }
-});
+// Events Route
+router.get("/", mapControllerFunction(EventController, "getEvents"));
+// Event Route
+router.get("/:id", mapControllerFunction(EventController, "getEventById"));
+// Create Route
+router.post("/add", mapControllerFunction(EventController, "createEvent"));
+// Edit Route
+router.put("/edit/:id", mapControllerFunction(EventController, "editEvent"));
 
 module.exports = router;

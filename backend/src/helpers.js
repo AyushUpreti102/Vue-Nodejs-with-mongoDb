@@ -19,7 +19,7 @@ const getSearchCondition = (req) => {
     const startDate = new Date(dateFilter); // Convert the frontend date to a Date object
     const endDate = new Date(startDate);
     endDate.setDate(startDate.getDate() + 1);
-    searchCondition.date = { $gte: startDate, $lt: endDate }; // You can modify this based on your date logic
+    searchCondition.date = { $gte: startDate, $lt: endDate }; // Date match
   }
 
   // Location filter condition (if provided)
@@ -45,8 +45,14 @@ const generateRefreshToken = (user) => {
   }); // Long expiry
 };
 
+const mapControllerFunction = (Controller, func) => {
+  const controller = new Controller();
+  return controller[func];
+};
+
 module.exports = {
   getSearchCondition,
   generateAccessToken,
   generateRefreshToken,
+  mapControllerFunction,
 };
