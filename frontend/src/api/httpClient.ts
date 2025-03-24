@@ -1,12 +1,9 @@
 import { getAuthToken, signOut } from '@/services/auth.service'
 import axios from 'axios'
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
-const axiosInstance: AxiosInstance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
-})
+axios.defaults.baseURL = import.meta.env.VITE_API_URL
 
-axiosInstance.interceptors.request.use(
+axios.interceptors.request.use(
   (config) => {
     const token = getAuthToken()
     if (token) {
@@ -17,7 +14,7 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 )
 
-axiosInstance.interceptors.response.use(
+axios.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config
@@ -31,9 +28,9 @@ axiosInstance.interceptors.response.use(
         })
 
         localStorage.setItem('token', data.token)
-        axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`
 
-        return axiosInstance(originalRequest)
+        return axios.request(originalRequest)
       } catch (refreshError) {
         localStorage.removeItem('token')
         localStorage.removeItem('refreshToken')
@@ -45,7 +42,4 @@ axiosInstance.interceptors.response.use(
   }
 )
 
-export const useAxios = async <T>(options: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
-  const result = await axiosInstance.request(options)
-  return result
-}
+export default axios

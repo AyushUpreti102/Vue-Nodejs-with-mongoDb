@@ -1,4 +1,4 @@
-import { useAxios } from '@/composables/useAxios'
+import { useAxios } from '@/api/apiClient'
 import type { CreateEventFormData, EventData, FilterForm, RawEvent } from '@/types/events-types'
 
 type EventsParams = {

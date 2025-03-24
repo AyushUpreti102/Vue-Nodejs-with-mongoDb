@@ -1,4 +1,4 @@
-import { useAxios } from '@/composables/useAxios'
+import { useAxios } from '@/api/apiClient'
 import { jwtDecode } from 'jwt-decode' // Import jwt-decode
 
 type Params = { email: string; password: string; name: string }

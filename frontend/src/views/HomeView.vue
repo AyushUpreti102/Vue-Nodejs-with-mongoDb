@@ -39,7 +39,7 @@ import EventsFilter from '@/components/EventsFilter.vue'
 import EventsList from '@/components/EventsList.vue'
 import { ref, watch } from 'vue'
 import { useEventsStore } from '@/stores/events'
-import { useDebounce } from '@/composables/useDebounce'
+import { useDebounce } from '@/utils/useDebounce'
 import { storeToRefs } from 'pinia'
 import type { CreateEventFormData } from '@/types/events-types'
 
